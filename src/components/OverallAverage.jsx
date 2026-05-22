@@ -38,7 +38,7 @@ export default function OverallAverage({ average, subjectCount, gradeCount, simu
           : `${subjectCount} ${subjectCount === 1 ? 'materie' : 'materii'} · ${gradeCount} ${gradeCount === 1 ? 'notă' : 'note'}`}
         {simulationMode && simCount > 0 && (
           <span className="overall-sim-count">
-            · {simCount} {simCount === 1 ? 'materie simulată' : 'materii simulate'}
+            {' '}· {simCount} {simCount === 1 ? 'materie simulată' : 'materii simulate'}
           </span>
         )}
       </div>
