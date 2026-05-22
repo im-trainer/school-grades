@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import SubjectCard from './SubjectCard'
+import { usePersistentState } from '../hooks/usePersistentState'
 
 const SORT_OPTIONS = [
   { field: 'name',    label: 'Alfabetic' },
@@ -8,9 +8,21 @@ const SORT_OPTIONS = [
 ]
 
 export default function SubjectList({ subjects, subjectAverages, simulationMode, simGrades, onSimGradeChange, simulatedSubjectAverages, onDelete, onRename, onAddGrade, onDeleteGrade }) {
-  const [collapsedIds, setCollapsedIds] = useState(new Set())
-  const [sortField, setSortField] = useState('name')
-  const [sortDir, setSortDir] = useState('asc')
+  // Persist sort + collapsed state across refreshes
+  const [sortField, setSortField] = usePersistentState('school-grades-ui-sort-field', 'name')
+  const [sortDir, setSortDir]     = usePersistentState('school-grades-ui-sort-dir', 'asc')
+  // Store collapsed IDs as plain array in localStorage, expose as Set internally
+  const [collapsedArr, setCollapsedArr] = usePersistentState('school-grades-ui-collapsed', [])
+  const collapsedIds = new Set(collapsedArr)
+
+  // Accepts a Set or a Set-returning updater (same API as the old useState setter)
+  function setCollapsedIds(setOrUpdater) {
+    if (typeof setOrUpdater === 'function') {
+      setCollapsedArr(prev => [...setOrUpdater(new Set(prev))])
+    } else {
+      setCollapsedArr([...setOrUpdater])
+    }
+  }
 
   if (subjects.length === 0) {
     return (

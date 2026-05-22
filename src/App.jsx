@@ -6,6 +6,7 @@ import SubjectList from './components/SubjectList'
 import ExportButton from './components/ExportButton'
 import ClassPickerModal from './components/ClassPickerModal'
 import { useGrades } from './hooks/useGrades'
+import { usePersistentState } from './hooks/usePersistentState'
 import { SUBJECTS_BY_CLASS } from './data/defaultSubjects'
 
 export default function App() {
@@ -27,8 +28,8 @@ export default function App() {
 
   const [showClassPicker, setShowClassPicker] = useState(false)
   const [toast, setToast] = useState(null)
-  const [simulationMode, setSimulationMode] = useState(false)
-  const [simGrades, setSimGrades] = useState({})
+  const [simulationMode, setSimulationMode] = usePersistentState('school-grades-ui-simulation', false)
+  const [simGrades, setSimGrades]             = usePersistentState('school-grades-ui-sim-grades', {})
 
   const totalGrades = subjects.reduce((sum, s) => sum + s.grades.length, 0)
   const existingNames = subjects.map(s => s.name.toLowerCase())
