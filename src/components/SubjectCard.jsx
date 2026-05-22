@@ -69,7 +69,7 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
   return (
     <div className={`subject-card ${colorClass}${collapsed ? ' collapsed' : ''}`}>
       <div className="subject-card-header">
-        {editing ? (
+        {editing && !collapsed ? (
           <input
             className="subject-name-input"
             value={nameInput}
@@ -84,9 +84,9 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
           />
         ) : (
           <h2
-            className="subject-name"
-            onClick={() => { setEditing(true); setNameInput(subject.name) }}
-            title="Click pentru a edita numele"
+            className={`subject-name${collapsed ? '' : ' editable'}`}
+            onClick={() => { if (!collapsed) { setEditing(true); setNameInput(subject.name) } }}
+            title={collapsed ? undefined : 'Click pentru a edita numele'}
           >
             {subject.name}
             {effort && <UpgradeBadge effort={effort} />}

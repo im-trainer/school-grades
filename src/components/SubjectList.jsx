@@ -76,10 +76,6 @@ export default function SubjectList({ subjects, subjectAverages, simulationMode,
   return (
     <>
       <div className="list-controls">
-        <span className="list-controls-label">
-          {subjects.length} {subjects.length === 1 ? 'materie' : 'materii'}
-        </span>
-
         <div className="sort-controls">
           <span className="sort-label">Sortare:</span>
           {SORT_OPTIONS.map(({ field, label }) => {
@@ -99,12 +95,16 @@ export default function SubjectList({ subjects, subjectAverages, simulationMode,
         </div>
 
         <div className="list-controls-buttons">
-          <button className="btn btn-collapse-all" onClick={collapseAll} disabled={allCollapsed}>
-            Restrânge tot ▲
-          </button>
-          <button className="btn btn-collapse-all" onClick={expandAll} disabled={!anyCollapsed}>
-            Extinde tot ▼
-          </button>
+          {!allCollapsed && (
+            <button className="btn btn-collapse-all" onClick={collapseAll}>
+              Restrânge tot ▲
+            </button>
+          )}
+          {anyCollapsed && (
+            <button className="btn btn-collapse-all" onClick={expandAll}>
+              Extinde tot ▼
+            </button>
+          )}
         </div>
       </div>
 

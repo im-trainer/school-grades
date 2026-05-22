@@ -89,6 +89,7 @@ export default function App() {
           simulationMode={simulationMode}
           onToggleSimulation={() => setSimulationMode(m => !m)}
           simulatedAverage={simulatedOverallAverage}
+          simCount={Object.keys(simGrades).filter(id => subjects.some(s => s.id === id)).length}
         />
         <SubjectList
           subjects={subjects}

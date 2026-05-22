@@ -167,8 +167,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 40px;
   flex-wrap: wrap;
+  margin: 4px 0;
 }
 
 .overall-sim-block {
@@ -202,6 +203,11 @@ body {
   color: #0284c7;
   opacity: 0.75;
   font-style: italic;
+}
+
+.overall-sim-count {
+  color: #0284c7;
+  font-weight: 600;
 }
 
 /* Simulation toggle button */
@@ -560,12 +566,15 @@ body {
 .subject-name {
   font-size: 1.05rem;
   font-weight: 700;
-  cursor: pointer;
+  cursor: default;
   flex: 1;
   color: var(--clr-text);
   transition: color 0.15s;
 }
-.subject-name:hover { color: var(--clr-primary); }
+.subject-name.editable {
+  cursor: pointer;
+}
+.subject-name.editable:hover { color: var(--clr-primary); }
 
 .subject-name-input {
   font-size: 1.05rem;

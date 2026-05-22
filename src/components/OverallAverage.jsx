@@ -1,4 +1,4 @@
-export default function OverallAverage({ average, subjectCount, gradeCount, simulationMode, onToggleSimulation, simulatedAverage }) {
+export default function OverallAverage({ average, subjectCount, gradeCount, simulationMode, onToggleSimulation, simulatedAverage, simCount }) {
   const colorClass = average === null ? '' : average >= 7 ? 'good' : average >= 5 ? 'ok' : 'bad'
   const simColorClass = simulatedAverage === null ? '' : simulatedAverage >= 7 ? 'good' : simulatedAverage >= 5 ? 'ok' : 'bad'
 
@@ -36,6 +36,11 @@ export default function OverallAverage({ average, subjectCount, gradeCount, simu
         {subjectCount === 0
           ? 'Nicio materie adăugată'
           : `${subjectCount} ${subjectCount === 1 ? 'materie' : 'materii'} · ${gradeCount} ${gradeCount === 1 ? 'notă' : 'note'}`}
+        {simulationMode && simCount > 0 && (
+          <span className="overall-sim-count">
+            · {simCount} {simCount === 1 ? 'materie simulată' : 'materii simulate'}
+          </span>
+        )}
       </div>
     </div>
   )
