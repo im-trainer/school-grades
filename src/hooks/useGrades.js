@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 
 const STORAGE_KEY = 'school-grades-v1'
+const CLASS_KEY = 'school-grades-class'
 
 function loadSubjects() {
   try {
@@ -8,6 +9,14 @@ function loadSubjects() {
     if (stored) return JSON.parse(stored)
   } catch {}
   return []
+}
+
+function loadStudentClass() {
+  try {
+    const stored = localStorage.getItem(CLASS_KEY)
+    if (stored) return parseInt(stored, 10) || null
+  } catch {}
+  return null
 }
 
 function generateId() {
@@ -36,10 +45,23 @@ function parseCSVLine(line) {
 
 export function useGrades() {
   const [subjects, setSubjects] = useState(() => loadSubjects())
+  const [studentClass, setStudentClassState] = useState(() => loadStudentClass())
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(subjects))
   }, [subjects])
+
+  useEffect(() => {
+    if (studentClass !== null) {
+      localStorage.setItem(CLASS_KEY, String(studentClass))
+    } else {
+      localStorage.removeItem(CLASS_KEY)
+    }
+  }, [studentClass])
+
+  function setStudentClass(cls) {
+    setStudentClassState(cls)
+  }
 
   const subjectAverages = useMemo(() => {
     const map = {}
@@ -159,6 +181,8 @@ export function useGrades() {
     subjects,
     subjectAverages,
     overallAverage,
+    studentClass,
+    setStudentClass,
     addSubject,
     addSubjectsBatch,
     deleteSubject,

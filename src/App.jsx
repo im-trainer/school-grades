@@ -13,6 +13,8 @@ export default function App() {
     subjects,
     subjectAverages,
     overallAverage,
+    studentClass,
+    setStudentClass,
     addSubject,
     addSubjectsBatch,
     deleteSubject,
@@ -31,6 +33,7 @@ export default function App() {
 
   function handleLoadDefaults(classNum) {
     const count = addSubjectsBatch(SUBJECTS_BY_CLASS[classNum])
+    setStudentClass(classNum)
     setShowClassPicker(false)
     const msg = count === 0
       ? `Toate materiile pentru clasa ${classNum} sunt deja în listă.`
@@ -41,7 +44,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header studentClass={studentClass} onChangeClass={() => setShowClassPicker(true)} />
       <main className="main">
         <OverallAverage
           average={overallAverage}

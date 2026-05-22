@@ -1,4 +1,4 @@
-export default function Header() {
+export default function Header({ studentClass, onChangeClass }) {
   return (
     <header className="header">
       <div className="header-inner">
@@ -6,10 +6,19 @@ export default function Header() {
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-        <div>
+        <div className="header-text">
           <h1>Notele Mele</h1>
           <p className="header-subtitle">Gestionează materiile și notele tale școlare</p>
         </div>
+        {studentClass && (
+          <button
+            className="header-class-badge"
+            onClick={onChangeClass}
+            title="Schimbă clasa"
+          >
+            Clasa {studentClass}
+          </button>
+        )}
       </div>
     </header>
   )
