@@ -240,10 +240,69 @@ body {
   font-size: 0.92rem;
 }
 
-/* Upgrade emoji */
-.subject-upgrade-emoji {
-  font-style: normal;
+/* Upgrade opportunity badge */
+.upgrade-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  vertical-align: middle;
+  margin-left: 7px;
   cursor: default;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.upgrade-badge-notif {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 2px solid #fff;
+  line-height: 1;
+}
+
+/* effort 1 — ușor, verde */
+.upgrade-badge.effort-1 {
+  background: #dcfce7;
+  color: #16a34a;
+  border: 1.5px solid #86efac;
+}
+.upgrade-badge.effort-1 .upgrade-badge-notif {
+  background: #22c55e;
+}
+
+/* effort 2 — mediu, portocaliu */
+.upgrade-badge.effort-2 {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1.5px solid #fcd34d;
+}
+.upgrade-badge.effort-2 .upgrade-badge-notif {
+  background: #f59e0b;
+}
+
+/* effort 3 — greu, roșu */
+.upgrade-badge.effort-3 {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1.5px solid #fca5a5;
+}
+.upgrade-badge.effort-3 .upgrade-badge-notif {
+  background: #ef4444;
 }
 
 /* =========================================================

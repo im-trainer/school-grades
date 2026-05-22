@@ -2,12 +2,34 @@ import { useState } from 'react'
 import GradeChip from './GradeChip'
 import SmartHint from './SmartHint'
 
-// Arată emoji dacă adăugând (medie+1) s-ar mări media rotunjită
-function hasUpgradeOpportunity(grades, avg) {
-  if (avg === null || avg >= 10 || grades.length === 0) return false
-  const allGrades = [...grades, avg + 1]
-  const newAvg = Math.round(allGrades.reduce((a, b) => a + b, 0) / allGrades.length)
-  return newAvg > avg
+// Returnează 1/2/3 = câte puncte peste medie sunt necesare pentru a crește media rotunjită
+// null dacă nu se poate sau nu are sens
+function upgradeOpportunity(grades, avg) {
+  if (avg === null || avg >= 10 || grades.length === 0) return null
+  const sum = grades.reduce((a, b) => a + b, 0)
+  const count = grades.length
+  for (let delta = 1; delta <= 3; delta++) {
+    const hypothetical = avg + delta
+    if (hypothetical > 10) break
+    const newAvg = Math.round((sum + hypothetical) / (count + 1))
+    if (newAvg > avg) return delta
+  }
+  return null
+}
+
+const EFFORT_LABEL = ['', 'Ușor de obținut (+1 față de medie)', 'Efort mediu (+2 față de medie)', 'Efort mai mare (+3 față de medie)']
+
+function UpgradeBadge({ effort }) {
+  return (
+    <span
+      className={`upgrade-badge effort-${effort}`}
+      title={EFFORT_LABEL[effort]}
+      aria-label={EFFORT_LABEL[effort]}
+    >
+      ↑
+      <span className="upgrade-badge-notif">{effort}</span>
+    </span>
+  )
 }
 
 export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
@@ -41,7 +63,7 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
 
   const colorClass = average === null ? 'no-grade' : average >= 7 ? 'good' : average >= 5 ? 'ok' : 'bad'
   const gradeCount = subject.grades.length
-  const showEmoji = hasUpgradeOpportunity(subject.grades, average)
+  const effort = upgradeOpportunity(subject.grades, average)
   const hasSimBadge = simulationMode && simulatedAverage !== undefined
 
   return (
@@ -67,9 +89,7 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             title="Click pentru a edita numele"
           >
             {subject.name}
-            {showEmoji && (
-              <span className="subject-upgrade-emoji" title="Cu o notă în plus poți crește media!"> 🚀</span>
-            )}
+            {effort && <UpgradeBadge effort={effort} />}
           </h2>
         )}
         <div className="subject-header-right">
