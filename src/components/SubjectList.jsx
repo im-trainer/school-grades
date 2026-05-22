@@ -77,21 +77,22 @@ export default function SubjectList({ subjects, subjectAverages, simulationMode,
     <>
       <div className="list-controls">
         <div className="sort-controls">
-          <span className="sort-label">Sortare:</span>
-          {SORT_OPTIONS.map(({ field, label }) => {
-            const active = sortField === field
-            const arrow = sortDir === 'asc' ? '↑' : '↓'
-            return (
-              <button
-                key={field}
-                className={`btn btn-sort${active ? ' btn-sort--active' : ''}`}
-                onClick={() => handleSort(field)}
-                title={active ? (sortDir === 'asc' ? 'Schimbă în descrescător' : 'Schimbă în crescător') : `Sortează după ${label}`}
-              >
-                {label}{active && <span className="sort-arrow">{arrow}</span>}
-              </button>
-            )
-          })}
+          <div className="btn-group">
+            {SORT_OPTIONS.map(({ field, label }) => {
+              const active = sortField === field
+              const arrow = sortDir === 'asc' ? '↑' : '↓'
+              return (
+                <button
+                  key={field}
+                  className={`btn btn-sort${active ? ' btn-sort--active' : ''}`}
+                  onClick={() => handleSort(field)}
+                  title={active ? (sortDir === 'asc' ? 'Schimbă în descrescător' : 'Schimbă în crescător') : `Sortează după ${label}`}
+                >
+                  {label}{active && <span className="sort-arrow">{arrow}</span>}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
         <div className="list-controls-buttons">

@@ -405,16 +405,6 @@ body {
 }
 .btn-cancel:hover { background: #d1d5db; }
 
-.btn-export {
-  background: #1d4ed8;
-  color: #fff;
-  padding: 12px 28px;
-}
-.btn-export:hover:not(:disabled) {
-  background: #1e40af;
-  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);
-}
-
 /* =========================================================
    Form errors
    ========================================================= */
@@ -460,6 +450,32 @@ body {
   color: var(--clr-text-light);
   font-weight: 600;
   white-space: nowrap;
+}
+
+/* ---- Button group ---- */
+.btn-group {
+  display: inline-flex;
+}
+.btn-group > .btn {
+  border-radius: 0;
+  position: relative;
+  z-index: 0;
+}
+.btn-group > .btn:not(:first-child) {
+  margin-left: -1.5px; /* overlap borders so only 1 border shows between buttons */
+}
+.btn-group > .btn:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+.btn-group > .btn:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.btn-group > .btn:hover,
+.btn-group > .btn:focus {
+  z-index: 1; /* bring hovered button's border on top */
+}
+.btn-group > .btn.btn-sort--active {
+  z-index: 2; /* active sort always on top */
 }
 
 .btn-sort {
@@ -844,7 +860,27 @@ body {
 }
 .btn-import:hover:not(:disabled) {
   background: #047857;
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+  box-shadow: inset 0 0 0 999px rgba(0,0,0,0.06);
+}
+
+.btn-export {
+  background: #1d4ed8;
+  color: #fff;
+  padding: 12px 18px;
+}
+.btn-export:hover:not(:disabled) {
+  background: #1e40af;
+  box-shadow: inset 0 0 0 999px rgba(0,0,0,0.06);
+}
+.btn-export:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* split-button divider: a subtle separator between Import and Export */
+.btn-group > .btn-import + .btn-export,
+.btn-group > .btn-export + .btn-import {
+  border-left-color: rgba(255,255,255,0.25);
 }
 
 .import-status {

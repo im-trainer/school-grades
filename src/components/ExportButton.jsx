@@ -41,21 +41,23 @@ export default function ExportButton({ onExport, onImport, onLoadDefaults, disab
         style={{ display: 'none' }}
         aria-label="Selectează fișier CSV pentru import"
       />
-      <button
-        className="btn btn-import"
-        onClick={() => fileInputRef.current?.click()}
-        title="Importă note dintr-un fișier CSV"
-      >
-        Import CSV
-      </button>
-      <button
-        className="btn btn-export"
-        onClick={onExport}
-        disabled={disabled}
-        title={disabled ? 'Adaugă materii pentru a exporta' : 'Descarcă notele în format CSV'}
-      >
-        Export CSV
-      </button>
+      <div className="btn-group">
+        <button
+          className="btn btn-import"
+          onClick={() => fileInputRef.current?.click()}
+          title="Importă note dintr-un fișier CSV"
+        >
+          Import CSV
+        </button>
+        <button
+          className="btn btn-export"
+          onClick={onExport}
+          disabled={disabled}
+          title={disabled ? 'Adaugă materii pentru a exporta' : 'Descarcă notele în format CSV'}
+        >
+          Export CSV
+        </button>
+      </div>
       {status && (
         <p className={`import-status import-status--${status.type}`}>{status.text}</p>
       )}
