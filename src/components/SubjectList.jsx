@@ -7,7 +7,7 @@ const SORT_OPTIONS = [
   { field: 'count',   label: 'Nr. note' },
 ]
 
-export default function SubjectList({ subjects, subjectAverages, onDelete, onRename, onAddGrade, onDeleteGrade }) {
+export default function SubjectList({ subjects, subjectAverages, simulationMode, simGrades, onSimGradeChange, simulatedSubjectAverages, onDelete, onRename, onAddGrade, onDeleteGrade }) {
   const [collapsedIds, setCollapsedIds] = useState(new Set())
   const [sortField, setSortField] = useState('name')
   const [sortDir, setSortDir] = useState('asc')
@@ -104,6 +104,10 @@ export default function SubjectList({ subjects, subjectAverages, onDelete, onRen
             average={subjectAverages[subject.id] ?? null}
             collapsed={collapsedIds.has(subject.id)}
             onToggleCollapse={() => toggleCollapse(subject.id)}
+            simulationMode={simulationMode}
+            simGrade={simGrades[subject.id]}
+            onSimGradeChange={onSimGradeChange}
+            simulatedAverage={simulatedSubjectAverages[subject.id]}
             onDelete={onDelete}
             onRename={onRename}
             onAddGrade={onAddGrade}

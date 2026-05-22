@@ -2,7 +2,15 @@ import { useState } from 'react'
 import GradeChip from './GradeChip'
 import SmartHint from './SmartHint'
 
-export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onAddGrade, onDeleteGrade }) {
+// Arată emoji dacă adăugând (medie+1) s-ar mări media rotunjită
+function hasUpgradeOpportunity(grades, avg) {
+  if (avg === null || avg >= 10 || grades.length === 0) return false
+  const allGrades = [...grades, avg + 1]
+  const newAvg = Math.round(allGrades.reduce((a, b) => a + b, 0) / allGrades.length)
+  return newAvg > avg
+}
+
+export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
   const [editing, setEditing] = useState(false)
   const [nameInput, setNameInput] = useState(subject.name)
   const [gradeInput, setGradeInput] = useState('')
@@ -33,6 +41,8 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
 
   const colorClass = average === null ? 'no-grade' : average >= 7 ? 'good' : average >= 5 ? 'ok' : 'bad'
   const gradeCount = subject.grades.length
+  const showEmoji = hasUpgradeOpportunity(subject.grades, average)
+  const hasSimBadge = simulationMode && simulatedAverage !== undefined
 
   return (
     <div className={`subject-card ${colorClass}${collapsed ? ' collapsed' : ''}`}>
@@ -57,6 +67,9 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             title="Click pentru a edita numele"
           >
             {subject.name}
+            {showEmoji && (
+              <span className="subject-upgrade-emoji" title="Cu o notă în plus poți crește media!"> 🚀</span>
+            )}
           </h2>
         )}
         <div className="subject-header-right">
@@ -68,6 +81,11 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
           <div className={`average-badge ${colorClass}`}>
             {average !== null ? average : '—'}
           </div>
+          {hasSimBadge && (
+            <div className="average-badge sim-badge">
+              ~{simulatedAverage}
+            </div>
+          )}
           <button
             className="btn-chevron"
             onClick={onToggleCollapse}
@@ -109,7 +127,14 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             {gradeError && <span className="form-error">{gradeError}</span>}
           </form>
 
-          <SmartHint grades={subject.grades} currentAverage={average} />
+          {simulationMode && (
+            <SmartHint
+              grades={subject.grades}
+              currentAverage={average}
+              simGrade={simGrade}
+              onSimGradeChange={grade => onSimGradeChange(subject.id, grade)}
+            />
+          )}
 
           <div className="subject-card-footer">
             {confirmDelete ? (

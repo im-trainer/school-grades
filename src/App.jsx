@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Header from './components/Header'
 import OverallAverage from './components/OverallAverage'
 import AddSubjectForm from './components/AddSubjectForm'
@@ -27,9 +27,44 @@ export default function App() {
 
   const [showClassPicker, setShowClassPicker] = useState(false)
   const [toast, setToast] = useState(null)
+  const [simulationMode, setSimulationMode] = useState(false)
+  const [simGrades, setSimGrades] = useState({})
 
   const totalGrades = subjects.reduce((sum, s) => sum + s.grades.length, 0)
   const existingNames = subjects.map(s => s.name.toLowerCase())
+
+  function setSimGrade(subjectId, grade) {
+    setSimGrades(prev => ({ ...prev, [subjectId]: grade }))
+  }
+
+  // Simulated per-subject averages (only for subjects where user moved slider)
+  const simulatedSubjectAverages = useMemo(() => {
+    const map = {}
+    for (const s of subjects) {
+      const simGrade = simGrades[s.id]
+      if (simGrade !== undefined) {
+        const allGrades = [...s.grades, simGrade]
+        map[s.id] = Math.round(allGrades.reduce((a, b) => a + b, 0) / allGrades.length)
+      }
+    }
+    return map
+  }, [subjects, simGrades])
+
+  // Simulated overall: all subjects, using simulated avg where slider was moved
+  // Only shown when at least one slider has been touched
+  const simulatedOverallAverage = useMemo(() => {
+    if (!simulationMode) return null
+    const hasAny = subjects.some(s => simGrades[s.id] !== undefined)
+    if (!hasAny) return null
+    const values = subjects
+      .map(s => {
+        const simAvg = simulatedSubjectAverages[s.id]
+        return simAvg !== undefined ? simAvg : subjectAverages[s.id]
+      })
+      .filter(v => v !== null)
+    if (values.length === 0) return null
+    return parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2))
+  }, [simulationMode, subjects, simGrades, simulatedSubjectAverages, subjectAverages])
 
   function handleLoadDefaults(classNum) {
     const count = addSubjectsBatch(SUBJECTS_BY_CLASS[classNum])
@@ -50,10 +85,17 @@ export default function App() {
           average={overallAverage}
           subjectCount={subjects.length}
           gradeCount={totalGrades}
+          simulationMode={simulationMode}
+          onToggleSimulation={() => setSimulationMode(m => !m)}
+          simulatedAverage={simulatedOverallAverage}
         />
         <SubjectList
           subjects={subjects}
           subjectAverages={subjectAverages}
+          simulationMode={simulationMode}
+          simGrades={simGrades}
+          onSimGradeChange={setSimGrade}
+          simulatedSubjectAverages={simulatedSubjectAverages}
           onDelete={deleteSubject}
           onRename={renameSubject}
           onAddGrade={addGrade}
