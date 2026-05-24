@@ -3,6 +3,8 @@
 > ⚠️ **Sync note:** This file and `.github/copilot-instructions.md` must always have identical content.
 > Whenever you edit one, immediately update the other to keep them in sync.
 
+> 📋 **Requirements sync:** Whenever a new functional or technical requirement is implemented, also update `requirements.md` to reflect the new behaviour. Keep `requirements.md` as the single source of truth for what the app does.
+
 ---
 
 ## Project overview
