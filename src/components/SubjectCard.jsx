@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GradeChip from './GradeChip'
 import SmartHint from './SmartHint'
 
@@ -35,9 +35,17 @@ function UpgradeBadge({ effort }) {
 export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
   const [editing, setEditing] = useState(false)
   const [nameInput, setNameInput] = useState(subject.name)
+  const [teacherInput, setTeacherInput] = useState(subject.teacher || '')
   const [gradeInput, setGradeInput] = useState('')
   const [gradeError, setGradeError] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
+
+  // Sync teacher input when subject changes from outside (e.g. import)
+  useEffect(() => { setTeacherInput(subject.teacher || '') }, [subject.teacher])
+
+  function handleTeacherBlur() {
+    onUpdateTeacher(subject.id, teacherInput)
+  }
 
   function handleNameBlur() {
     const trimmed = nameInput.trim()
@@ -124,8 +132,10 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             <input
               className="teacher-input"
               type="text"
-              value={subject.teacher || ''}
-              onChange={e => onUpdateTeacher(subject.id, e.target.value)}
+              value={teacherInput}
+              onChange={e => setTeacherInput(e.target.value)}
+              onBlur={handleTeacherBlur}
+              onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
               placeholder="Numele profesorului (opțional)"
               maxLength={80}
               aria-label="Numele profesorului"
