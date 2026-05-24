@@ -59,7 +59,8 @@ src/
 
 ```js
 // localStorage key: 'school-grades-v1'
-subjects: [{ id: string, name: string, grades: number[] }]
+subjects: [{ id: string, name: string, teacher: string, grades: number[] }]
+// teacher is optional (empty string = not set)
 
 // localStorage key: 'school-grades-class'
 studentClass: number | null   // 1–12

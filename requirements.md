@@ -9,6 +9,7 @@ Designul aplicației va fi simplu și intuitiv, cu o interfață prietenoasă co
 ## Cerințe funcționale
 
 - Utilizatorul poate introduce, edita și șterge materiile pe care le are.
+- Pentru fiecare materie, utilizatorul poate introduce opțional **numele profesorului** (câmp liber, vizibil și editabil doar când cardul este expandat).
 - Pentru fiecare materie, utilizatorul poate introduce, edita și șterge notele.
 - Aplicația calculează automat media **rotunjită** (Math.round) pentru fiecare materie.
 - Media fiecărei materii afișată în badge-ul din dreapta titlului este cea rotunjită.
@@ -20,8 +21,8 @@ Designul aplicației va fi simplu și intuitiv, cu o interfață prietenoasă co
 - Când un card este colaps, se afișează doar titlul materiei, numărul de note și media rotunjită.
 - Datele cu notele și materiile sunt salvate local (localStorage), astfel încât nu se pierd la refresh sau închidere browser.
 - Fără login: datele rămân doar pe device-ul utilizatorului.
-- Export notele și materiile în format **CSV** (descărcare fișier, UTF-8 cu BOM pentru compatibilitate Excel).
-- Import note din fișier **CSV** (înlocuiește datele existente după confirmare).
+- Export notele și materiile în format **CSV** (descărcare fișier, UTF-8 cu BOM pentru compatibilitate Excel) — include coloana `Profesor` după `Materie`.
+- Import note din fișier **CSV** (înlocuiește datele existente după confirmare) — suportă atât formatul nou (cu coloana `Profesor`) cât și formatul vechi (fără).
 - Fișier exemplu de import furnizat: `exemplu-cl-7.csv`.
 - Buton **„Materii implicite"**: la apăsare, elevul selectează clasa (1–12) dintr-un modal; materiile standard pentru acea clasă sunt adăugate automat (cele deja existente sunt ignorate). Datele sunt bazate pe programa școlară națională românească.
 - Bara de jos conține: câmp adăugare materie + butoane Materii implicite / Import CSV / Export CSV.

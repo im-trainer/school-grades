@@ -655,6 +655,49 @@ body {
 .btn-chevron:hover { background: #f3f4f6; color: var(--clr-primary); }
 
 /* =========================================================
+   Teacher row
+   ========================================================= */
+.teacher-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 2px;
+}
+
+.teacher-icon {
+  font-size: 0.85rem;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.teacher-input {
+  flex: 1;
+  font-size: 0.82rem;
+  font-family: var(--font);
+  color: var(--clr-text-light);
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px dashed transparent;
+  padding: 2px 4px;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.15s, color 0.15s;
+  min-width: 0;
+}
+.teacher-input::placeholder {
+  color: var(--clr-text-light);
+  opacity: 0.45;
+  font-style: italic;
+}
+.teacher-input:hover {
+  border-bottom-color: var(--clr-border);
+}
+.teacher-input:focus {
+  border-bottom-color: var(--clr-primary);
+  color: var(--clr-text);
+}
+
+/* =========================================================
    Grades row
    ========================================================= */
 .grades-row {

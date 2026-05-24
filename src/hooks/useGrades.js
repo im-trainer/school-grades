@@ -83,7 +83,7 @@ export function useGrades() {
   }, [subjectAverages])
 
   function addSubject(name) {
-    setSubjects(prev => [...prev, { id: generateId(), name, grades: [] }])
+    setSubjects(prev => [...prev, { id: generateId(), name, teacher: '', grades: [] }])
   }
 
   function deleteSubject(id) {
@@ -92,6 +92,10 @@ export function useGrades() {
 
   function renameSubject(id, newName) {
     setSubjects(prev => prev.map(s => s.id === id ? { ...s, name: newName } : s))
+  }
+
+  function updateTeacher(id, teacher) {
+    setSubjects(prev => prev.map(s => s.id === id ? { ...s, teacher: teacher.trim() } : s))
   }
 
   function addGrade(subjectId, grade) {
@@ -110,7 +114,7 @@ export function useGrades() {
   function exportCSV() {
     if (subjects.length === 0) return
     const maxGrades = Math.max(...subjects.map(s => s.grades.length))
-    const header = ['Materie', ...Array.from({ length: maxGrades }, (_, i) => `Nota ${i + 1}`)]
+    const header = ['Materie', 'Profesor', ...Array.from({ length: maxGrades }, (_, i) => `Nota ${i + 1}`)]
 
     function quoteCell(cell) {
       const str = String(cell)
@@ -119,7 +123,7 @@ export function useGrades() {
         : str
     }
 
-    const rows = [header, ...subjects.map(s => [s.name, ...s.grades])]
+    const rows = [header, ...subjects.map(s => [s.name, s.teacher || '', ...s.grades])]
     const csv = rows.map(row => row.map(quoteCell).join(',')).join('\r\n')
     const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
@@ -141,14 +145,20 @@ export function useGrades() {
             reject(new Error('Fișierul nu conține date.'))
             return
           }
+          // Detect if CSV has the optional Profesor column (new format)
+          const headerCells = parseCSVLine(lines[0])
+          const hasTeacherCol = headerCells[1]?.trim().toLowerCase() === 'profesor'
+
           const newSubjects = lines.slice(1).map(line => {
             const cells = parseCSVLine(line)
             const name = cells[0]?.trim()
             if (!name) return null
-            const grades = cells.slice(1)
+            const teacher = hasTeacherCol ? (cells[1]?.trim() || '') : ''
+            const gradeStart = hasTeacherCol ? 2 : 1
+            const grades = cells.slice(gradeStart)
               .map(c => parseInt(c.trim(), 10))
               .filter(n => !isNaN(n) && n >= 1 && n <= 10)
-            return { id: generateId(), name, grades }
+            return { id: generateId(), name, teacher, grades }
           }).filter(Boolean)
 
           if (newSubjects.length === 0) {
@@ -172,7 +182,7 @@ export function useGrades() {
     if (toAdd.length === 0) return 0
     setSubjects(prev => [
       ...prev,
-      ...toAdd.map(name => ({ id: generateId(), name, grades: [] })),
+      ...toAdd.map(name => ({ id: generateId(), name, teacher: '', grades: [] })),
     ])
     return toAdd.length
   }
@@ -187,6 +197,7 @@ export function useGrades() {
     addSubjectsBatch,
     deleteSubject,
     renameSubject,
+    updateTeacher,
     addGrade,
     deleteGrade,
     exportCSV,

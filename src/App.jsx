@@ -20,6 +20,7 @@ export default function App() {
     addSubjectsBatch,
     deleteSubject,
     renameSubject,
+    updateTeacher,
     addGrade,
     deleteGrade,
     exportCSV,
@@ -100,6 +101,7 @@ export default function App() {
           simulatedSubjectAverages={simulatedSubjectAverages}
           onDelete={deleteSubject}
           onRename={renameSubject}
+          onUpdateTeacher={updateTeacher}
           onAddGrade={addGrade}
           onDeleteGrade={deleteGrade}
         />

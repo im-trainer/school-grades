@@ -32,7 +32,7 @@ function UpgradeBadge({ effort }) {
   )
 }
 
-export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
+export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
   const [editing, setEditing] = useState(false)
   const [nameInput, setNameInput] = useState(subject.name)
   const [gradeInput, setGradeInput] = useState('')
@@ -119,6 +119,19 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
 
       {!collapsed && (
         <>
+          <div className="teacher-row">
+            <span className="teacher-icon">👤</span>
+            <input
+              className="teacher-input"
+              type="text"
+              value={subject.teacher || ''}
+              onChange={e => onUpdateTeacher(subject.id, e.target.value)}
+              placeholder="Numele profesorului (opțional)"
+              maxLength={80}
+              aria-label="Numele profesorului"
+            />
+          </div>
+
           <div className="grades-row">
             {gradeCount === 0 ? (
               <span className="no-grades-text">Nicio notă adăugată</span>
