@@ -73,7 +73,7 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
           💡 Dacă ai lua cel puțin nota <strong>{upgradeGrade}</strong>, ți-ai crește media.
         </p>
       )}
-      {simGrades.length === 0 && upgradeGrade === null && (
+      {simGrades.length === 0 && (
         <p className="sim-hint-empty">Alege note simulate pentru această materie</p>
       )}
     </div>
