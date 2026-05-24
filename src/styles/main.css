@@ -689,6 +689,13 @@ body {
 .grade-chip.ok   { background: var(--clr-ok-bg);   color: #b45309; }
 .grade-chip.bad  { background: var(--clr-bad-bg);  color: #b91c1c; }
 
+/* Confirmation state — overrides color regardless of grade */
+.grade-chip.confirming {
+  background: var(--clr-bad-bg);
+  color: #b91c1c;
+  outline: 2px solid #fca5a5;
+}
+
 .grade-chip-delete {
   background: none;
   border: none;
@@ -702,9 +709,17 @@ body {
   align-items: center;
   min-width: 16px;
   min-height: 16px;
-  transition: opacity 0.1s;
+  transition: opacity 0.1s, color 0.15s;
 }
 .grade-chip-delete:hover { opacity: 1; }
+
+/* In confirming state the ✓ button is always fully visible and green */
+.grade-chip.confirming .grade-chip-delete {
+  opacity: 1;
+  color: #16a34a;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
 
 /* =========================================================
    Add grade form
