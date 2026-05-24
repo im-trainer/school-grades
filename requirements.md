@@ -28,11 +28,17 @@ Designul aplicației va fi simplu și intuitiv, cu o interfață prietenoasă co
 - Bara de jos conține: câmp adăugare materie + butoane Materii implicite / Import CSV / Export CSV.
 - Media Generală afișată cu 2 zecimale.
 
-### Funcție de „Smart hints"
+### Funcție de „Smart hints" / Simulare note
 
-- Slider interactiv (1–10) pe fiecare card de materie.
-- Simulare: dacă elevul ar lua nota X în plus, media rotunjită a materiei ar deveni Y.
-- Afișează delta față de media actuală rotunjită (+1, -1 etc.).
+- 10 butoane circulare (notele 1–10) vizibile pe fiecare card expandat când simularea este activată.
+- Elevul poate da click pe oricare buton pentru a **adăuga** acea notă ca notă simulată.
+- Pot fi adăugate **mai multe note simulate** pentru aceeași materie (de exemplu: planifică să ia un 7 și un 8).
+- Notele simulate apar ca chip-uri (similare notelor reale, dar stilizate diferit) sub picker, cu buton × pentru ștergere individuală.
+- Media simulată a materiei se recalculează live la fiecare modificare.
+- Dacă nu există note simulate pentru o materie, aceasta nu contribuie la media generală simulată.
+- Mesajul de rezultat arată toate notele simulate: „Dacă ai lua nota 7 și nota 8, media ar fi 8 (+1)".
+- Notele simulate se păstrează în localStorage (`school-grades-ui-sim-grades`) ca `{ [subjectId]: number[] }`.
+- La upgrade de format vechi (un singur număr per materie), datele vechi sunt resetate automat.
 - Scopul: motivarea elevului să îmbunătățească performanța la materiile slabe.
 
 ## Cerințe non-funcționale

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "mcp__Claude_Preview__preview_start",
+      "WebSearch",
+      "WebFetch(domain:rocnee.eu)",
+      "WebFetch(domain:www.portalinvatamant.ro)",
+      "WebFetch(domain:www.edu.ro)",
+      "Bash(git branch *)",
+      "Bash(git add *)"
+    ]
+  }
+}

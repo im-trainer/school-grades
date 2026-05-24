@@ -32,7 +32,7 @@ function UpgradeBadge({ effort }) {
   )
 }
 
-export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade, simulationMode, simGrade, onSimGradeChange, simulatedAverage }) {
+export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade, simulationMode, simGrades, onAddSimGrade, onRemoveSimGrade, simulatedAverage }) {
   const [editing, setEditing] = useState(false)
   const [nameInput, setNameInput] = useState(subject.name)
   const [teacherInput, setTeacherInput] = useState(subject.teacher || '')
@@ -106,7 +106,7 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
               {gradeCount} {gradeCount === 1 ? 'notă' : 'note'}
             </span>
           )}
-          <div className={`average-badge ${colorClass}`}>
+          <div className={`average-badge ${colorClass}${average === 10 ? ' grade-ten' : ''}`}>
             {average !== null ? average : '—'}
           </div>
           {hasSimBadge && (
@@ -174,8 +174,9 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             <SmartHint
               grades={subject.grades}
               currentAverage={average}
-              simGrade={simGrade}
-              onSimGradeChange={grade => onSimGradeChange(subject.id, grade)}
+              simGrades={simGrades}
+              onAddSimGrade={grade => onAddSimGrade(subject.id, grade)}
+              onRemoveSimGrade={index => onRemoveSimGrade(subject.id, index)}
             />
           )}
 

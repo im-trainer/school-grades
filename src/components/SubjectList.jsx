@@ -7,7 +7,7 @@ const SORT_OPTIONS = [
   { field: 'count',   label: 'Nr. note' },
 ]
 
-export default function SubjectList({ subjects, subjectAverages, simulationMode, simGrades, onSimGradeChange, simulatedSubjectAverages, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade }) {
+export default function SubjectList({ subjects, subjectAverages, simulationMode, simGrades, onAddSimGrade, onRemoveSimGrade, simulatedSubjectAverages, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade }) {
   // Persist sort + collapsed state across refreshes
   const [sortField, setSortField] = usePersistentState('school-grades-ui-sort-field', 'name')
   const [sortDir, setSortDir]     = usePersistentState('school-grades-ui-sort-dir', 'asc')
@@ -118,8 +118,9 @@ export default function SubjectList({ subjects, subjectAverages, simulationMode,
             collapsed={collapsedIds.has(subject.id)}
             onToggleCollapse={() => toggleCollapse(subject.id)}
             simulationMode={simulationMode}
-            simGrade={simGrades[subject.id]}
-            onSimGradeChange={onSimGradeChange}
+            simGrades={simGrades[subject.id] ?? []}
+            onAddSimGrade={onAddSimGrade}
+            onRemoveSimGrade={onRemoveSimGrade}
             simulatedAverage={simulatedSubjectAverages[subject.id]}
             onDelete={onDelete}
             onRename={onRename}

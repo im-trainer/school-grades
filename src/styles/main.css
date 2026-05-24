@@ -242,7 +242,7 @@ body {
 .average-badge.sim-badge {
   background: #e0f2fe;
   color: #0369a1;
-  border: 1.5px dashed #38bdf8;
+  border: 2px dashed #38bdf8;
   font-size: 0.92rem;
 }
 
@@ -632,10 +632,10 @@ body {
   flex-shrink: 0;
 }
 
-.average-badge.good    { background: var(--clr-good-bg); color: #15803d; }
-.average-badge.ok      { background: var(--clr-ok-bg);   color: #b45309; }
-.average-badge.bad     { background: var(--clr-bad-bg);  color: #b91c1c; }
-.average-badge.no-grade { background: #f3f4f6; color: var(--clr-text-light); }
+.average-badge.good    { background: var(--clr-good-bg); color: #15803d; border: 2px solid var(--clr-good-bg); }
+.average-badge.ok      { background: var(--clr-ok-bg);   color: #b45309; border: 2px solid var(--clr-ok-bg); }
+.average-badge.bad     { background: var(--clr-bad-bg);  color: #b91c1c; border: 2px solid var(--clr-bad-bg); }
+.average-badge.no-grade { background: #f3f4f6; color: var(--clr-text-light); border: 2px solid #f3f4f6; }
 
 .btn-chevron {
   background: none;
@@ -727,11 +727,19 @@ body {
   font-size: 0.95rem;
   font-weight: 700;
   user-select: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.grade-chip:hover {
+  transform: scale(1.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.grade-chip.good { background: var(--clr-good-bg); color: #15803d; }
-.grade-chip.ok   { background: var(--clr-ok-bg);   color: #b45309; }
-.grade-chip.bad  { background: var(--clr-bad-bg);  color: #b91c1c; }
+.grade-chip.good { background: var(--clr-good-bg); color: #15803d; border: 2px solid var(--clr-good-bg); }
+.grade-chip.ok   { background: var(--clr-ok-bg);   color: #b45309; border: 2px solid var(--clr-ok-bg); }
+.grade-chip.bad  { background: var(--clr-bad-bg);  color: #b91c1c; border: 2px solid var(--clr-bad-bg); }
+
+/* Grade 10 gets a prominent border everywhere */
+.grade-ten { border: 2px solid #16a34a !important; }
 
 /* Confirmation state — overrides color regardless of grade */
 .grade-chip.confirming {
@@ -791,59 +799,100 @@ body {
 }
 
 /* =========================================================
-   Smart hint
+   Smart hint / Simulation grade picker
    ========================================================= */
 .smart-hint {
   border-top: 1px solid var(--clr-border);
   padding-top: 12px;
 }
 
-.smart-hint-body {
+/* Row of 10 circular grade buttons */
+.sim-grade-picker {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
-.smart-hint-label {
-  font-size: 0.9rem;
-  color: var(--clr-text);
-}
-
-.smart-hint-slider-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.slider-min, .slider-max {
-  font-size: 0.8rem;
-  color: var(--clr-text-light);
-  font-weight: 600;
-  flex-shrink: 0;
-  min-width: 14px;
-}
-
-.smart-hint-slider {
-  flex: 1;
-  accent-color: var(--clr-primary);
-  cursor: pointer;
-  height: 6px;
-}
-
-.smart-hint-result {
-  font-size: 0.92rem;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  background: #f9fafb;
-  font-weight: 500;
-}
-
-.smart-hint-result.positive { background: var(--clr-good-bg); color: #15803d; }
-.smart-hint-result.negative { background: var(--clr-bad-bg);  color: #b91c1c; }
-.smart-hint-result.neutral  { background: #f3f4f6; color: var(--clr-text); }
-
-.smart-hint-delta {
+.sim-grade-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
   font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.sim-grade-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.sim-grade-btn.grade-color-bad  { background: var(--clr-bad-bg);  color: #b91c1c; border: 2px solid var(--clr-bad-bg); }
+.sim-grade-btn.grade-color-ok   { background: var(--clr-ok-bg);   color: #854d0e; border: 2px solid var(--clr-ok-bg); }
+.sim-grade-btn.grade-color-good { background: var(--clr-good-bg); color: #166534; border: 2px solid var(--clr-good-bg); }
+
+/* Chips for selected sim grades */
+.sim-grades-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.sim-grade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px 2px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 2px dashed #38bdf8;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.sim-grade-chip:hover {
+  transform: scale(1.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sim-grade-chip-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0369a1;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 2px;
+}
+.sim-grade-chip-delete:hover { color: #b91c1c; }
+
+/* Result message */
+.sim-result {
+  font-size: 0.92rem;
+  color: #334155;
+  margin: 2px 0 0;
+}
+.sim-delta-pos { color: #16a34a; font-weight: 700; }
+.sim-delta-neg { color: #dc2626; font-weight: 700; }
+
+.sim-hint-empty {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-style: italic;
+  margin: 4px 0 0;
+}
+
+.sim-upgrade-hint {
+  font-size: 0.88rem;
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  margin: 4px 0 0;
 }
 
 /* =========================================================

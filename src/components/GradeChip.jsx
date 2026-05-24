@@ -23,7 +23,7 @@ export default function GradeChip({ grade, onDelete }) {
   useEffect(() => () => clearTimeout(timerRef.current), [])
 
   return (
-    <span className={`grade-chip ${colorClass}${confirming ? ' confirming' : ''}`}>
+    <span className={`grade-chip ${colorClass}${grade === 10 ? ' grade-ten' : ''}${confirming ? ' confirming' : ''}`}>
       {grade}
       <button
         className="grade-chip-delete"

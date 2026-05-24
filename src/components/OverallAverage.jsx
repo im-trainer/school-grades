@@ -26,7 +26,7 @@ export default function OverallAverage({ average, subjectCount, gradeCount, simu
                 <span className={`overall-sim-value ${simColorClass}`}>{simulatedAverage.toFixed(2)}</span>
               </>
             ) : (
-              <span className="overall-sim-hint">Mută cursoarele pentru a simula</span>
+              <span className="overall-sim-hint">Alege note simulate în fiecare materie</span>
             )}
           </div>
         )}
