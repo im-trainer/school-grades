@@ -1,3 +1,5 @@
+import UpgradeBadge from './UpgradeBadge'
+
 // Returns the minimum grade (1–10) that, if added, raises the rounded average.
 // Returns null if not possible or not applicable.
 function findUpgradeGrade(grades, currentAverage) {
@@ -10,6 +12,19 @@ function findUpgradeGrade(grades, currentAverage) {
   return null
 }
 
+// Returnează 1/2/3 = câte puncte peste medie sunt necesare pentru a crește media rotunjită
+function upgradeOpportunity(grades, avg) {
+  if (avg === null || avg >= 10 || grades.length === 0) return null
+  const sum = grades.reduce((a, b) => a + b, 0)
+  const count = grades.length
+  for (let delta = 1; delta <= 3; delta++) {
+    const hypothetical = avg + delta
+    if (hypothetical > 10) break
+    if (Math.round((sum + hypothetical) / (count + 1)) > avg) return delta
+  }
+  return null
+}
+
 export default function SmartHint({ grades, currentAverage, simGrades, onAddSimGrade, onRemoveSimGrade }) {
   const allGrades = [...grades, ...simGrades]
   const simAvg = simGrades.length > 0
@@ -18,6 +33,7 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
   const delta = simAvg !== null && currentAverage !== null ? simAvg - currentAverage : null
 
   const upgradeGrade = findUpgradeGrade(grades, currentAverage)
+  const effort = upgradeOpportunity(grades, currentAverage)
 
   function formatGrades(arr) {
     if (arr.length === 1) return `nota ${arr[0]}`
@@ -69,9 +85,10 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
       )}
 
       {simGrades.length === 0 && upgradeGrade !== null && (
-        <p className="sim-upgrade-hint">
-          💡 Dacă ai lua cel puțin nota <strong>{upgradeGrade}</strong>, ți-ai crește media.
-        </p>
+        <div className="sim-upgrade-hint">
+          {effort !== null && <UpgradeBadge effort={effort} />}
+          <span>Dacă ai lua nota <strong>{upgradeGrade}</strong>, ți-ai crește media <span className="sim-hint-bulb">💡</span></span>
+        </div>
       )}
       {simGrades.length === 0 && (
         <p className="sim-hint-empty">Alege note simulate pentru această materie</p>

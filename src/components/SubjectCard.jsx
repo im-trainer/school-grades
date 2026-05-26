@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import GradeChip from './GradeChip'
 import SmartHint from './SmartHint'
+import UpgradeBadge from './UpgradeBadge'
 
 // Returnează 1/2/3 = câte puncte peste medie sunt necesare pentru a crește media rotunjită
 // null dacă nu se poate sau nu are sens
@@ -15,21 +16,6 @@ function upgradeOpportunity(grades, avg) {
     if (newAvg > avg) return delta
   }
   return null
-}
-
-const EFFORT_LABEL = ['', 'Ușor de obținut (+1 față de medie)', 'Efort mediu (+2 față de medie)', 'Efort mai mare (+3 față de medie)']
-
-function UpgradeBadge({ effort }) {
-  return (
-    <span
-      className={`upgrade-badge effort-${effort}`}
-      title={EFFORT_LABEL[effort]}
-      aria-label={EFFORT_LABEL[effort]}
-    >
-      ↑
-      <span className="upgrade-badge-notif">{effort}</span>
-    </span>
-  )
 }
 
 export default function SubjectCard({ subject, average, collapsed, onToggleCollapse, onDelete, onRename, onUpdateTeacher, onAddGrade, onDeleteGrade, simulationMode, simGrades, onAddSimGrade, onRemoveSimGrade, simulatedAverage }) {

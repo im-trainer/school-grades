@@ -886,6 +886,9 @@ body {
 }
 
 .sim-upgrade-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.88rem;
   color: #0369a1;
   background: #f0f9ff;
@@ -893,6 +896,22 @@ body {
   border-radius: var(--radius-sm);
   padding: 6px 10px;
   margin: 4px 0 0;
+}
+
+.sim-upgrade-hint .upgrade-badge {
+  margin-left: 0;
+  flex-shrink: 0;
+  animation: hint-pulse 2.4s ease-in-out infinite 0.4s; /* slight offset vs bulb */
+}
+
+.sim-hint-bulb {
+  display: inline-block;
+  animation: hint-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.25); opacity: 0.75; }
 }
 
 /* =========================================================
