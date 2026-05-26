@@ -809,12 +809,12 @@ body {
 }
 
 /* Row of 10 circular grade buttons.
-   Gap scales with viewport: 11px at ≥494px, −1px per 9px narrower, min 2px.
-   Formula: clamp(2px, (100vw − 395px) / 9, 11px) */
+   Gap scales with viewport: 11px at ≥494px, −1px per 9px narrower, min 3px.
+   Formula: clamp(3px, (100vw − 395px) / 9, 11px) */
 .sim-grade-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(2px, calc((100vw - 395px) / 9), 11px);
+  gap: clamp(3px, calc((100vw - 395px) / 9), 11px);
   margin-bottom: 8px;
 }
 
