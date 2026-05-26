@@ -62,7 +62,9 @@ body {
 .header {
   background: var(--clr-primary);
   color: #fff;
-  padding: 20px 24px;
+  /* env(safe-area-inset-top) pushes content below the camera/status bar
+     when saved as PWA with black-translucent status bar style */
+  padding: calc(20px + env(safe-area-inset-top)) 24px 20px;
   box-shadow: 0 2px 16px rgba(108, 99, 255, 0.30);
 }
 
