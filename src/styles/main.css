@@ -806,11 +806,13 @@ body {
   padding-top: 12px;
 }
 
-/* Row of 10 circular grade buttons */
+/* Row of 10 circular grade buttons.
+   Gap scales with viewport: 11px at ≥494px, −1px per 9px narrower, min 0px.
+   Formula: clamp(0px, (100vw − 395px) / 9, 11px) */
 .sim-grade-picker {
   display: flex;
   flex-wrap: wrap;
-  gap: 2px;
+  gap: clamp(0px, calc((100vw - 395px) / 9), 11px);
   margin-bottom: 8px;
 }
 
