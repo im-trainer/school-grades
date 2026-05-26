@@ -815,8 +815,8 @@ body {
 }
 
 .sim-grade-btn {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: none;
   font-weight: 700;
@@ -1103,7 +1103,7 @@ body {
   .header h1 { font-size: 1.3rem; }
   .overall-value { font-size: 3rem; }
   .main { padding: 12px 10px 32px; gap: 12px; }
-  .subject-card { padding: 14px; }
+  .subject-card { padding: 8px; }
   .subject-grid { gap: 10px; }
   .add-subject-form { flex-direction: column; }
   .add-subject-input { min-width: unset; width: 100%; }
