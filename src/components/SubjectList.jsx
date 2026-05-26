@@ -95,17 +95,9 @@ export default function SubjectList({ subjects, subjectAverages, simulationMode,
           </div>
         </div>
 
-        <div className="list-controls-buttons">
-          {!allCollapsed && (
-            <button className="btn btn-collapse-all" onClick={collapseAll}>
-              Restrânge tot ▲
-            </button>
-          )}
-          {anyCollapsed && (
-            <button className="btn btn-collapse-all" onClick={expandAll}>
-              Extinde tot ▼
-            </button>
-          )}
+        <div className="btn-group">
+          <button className="btn btn-sort" onClick={collapseAll} disabled={allCollapsed} title="Restrânge tot">▲</button>
+          <button className="btn btn-sort" onClick={expandAll}   disabled={!anyCollapsed} title="Extinde tot">▼</button>
         </div>
       </div>
 
