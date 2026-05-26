@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Badge fills the full viewBox — notification dot in top-right corner -->
+  <!-- Badge fills the full viewBox -->
   <rect x="2" y="2" width="96" height="96" rx="22" ry="22"
         fill="#dcfce7" stroke="#86efac" stroke-width="3"/>
 
@@ -7,14 +7,16 @@
   <polygon points="50,12 20,50 34,50 34,82 66,82 66,50 80,50"
            fill="#16a34a"/>
 
-  <!-- Notification dot — top-right, stays within viewBox -->
-  <circle cx="80" cy="20" r="18" fill="#22c55e" stroke="white" stroke-width="4"/>
+  <!-- Notification dot — cx=76, cy=24 gives equal gap (5px) from right and top edges.
+       Also sits exactly on the badge corner arc center (rx=22 → arc center ~76,24).
+       cx + cy = 100 ensures equal spacing: 98-(76+17)=5 == (24-17)-2=5 ✓ -->
+  <circle cx="76" cy="24" r="17" fill="#22c55e" stroke="white" stroke-width="4"/>
 
-  <!-- "1" drawn as paths, centered in notification dot -->
+  <!-- "1" paths centered at (76, 24) -->
   <!-- serif bar top -->
-  <rect x="74.5" y="10"   width="10" height="3.5" rx="1.75" fill="white"/>
+  <rect x="70.5" y="14"   width="10" height="3.5" rx="1.75" fill="white"/>
   <!-- stem -->
-  <rect x="79"   y="10"   width="4.5" height="20"  rx="2.25" fill="white"/>
+  <rect x="75"   y="14"   width="4.5" height="20" rx="2.25" fill="white"/>
   <!-- base serif -->
-  <rect x="73"   y="26.5" width="14" height="3.5"  rx="1.75" fill="white"/>
+  <rect x="69"   y="30.5" width="14" height="3.5" rx="1.75" fill="white"/>
 </svg>
