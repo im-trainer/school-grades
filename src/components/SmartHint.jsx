@@ -25,7 +25,7 @@ function upgradeOpportunity(grades, avg) {
   return null
 }
 
-export default function SmartHint({ grades, currentAverage, simGrades, onAddSimGrade, onRemoveSimGrade }) {
+export default function SmartHint({ grades, currentAverage, simGrades, onAddSimGrade, onRemoveSimGrade, simulationMode }) {
   const allGrades = [...grades, ...simGrades]
   const simAvg = simGrades.length > 0
     ? Math.round(allGrades.reduce((a, b) => a + b, 0) / allGrades.length)
@@ -42,21 +42,23 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
 
   return (
     <div className="smart-hint">
-      <div className="sim-grade-picker">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(g => (
-          <button
-            key={g}
-            type="button"
-            className={`sim-grade-btn grade-color-${g <= 4 ? 'bad' : g <= 6 ? 'ok' : 'good'}${g === 10 ? ' grade-ten' : ''}`}
-            onClick={() => onAddSimGrade(g)}
-            title={`Simulează nota ${g}`}
-          >
-            {g}
-          </button>
-        ))}
-      </div>
+      {simulationMode && (
+        <div className="sim-grade-picker">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(g => (
+            <button
+              key={g}
+              type="button"
+              className={`sim-grade-btn grade-color-${g <= 4 ? 'bad' : g <= 6 ? 'ok' : 'good'}${g === 10 ? ' grade-ten' : ''}`}
+              onClick={() => onAddSimGrade(g)}
+              title={`Simulează nota ${g}`}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {simGrades.length > 0 && (
+      {simulationMode && simGrades.length > 0 && (
         <div className="sim-grades-chips">
           {simGrades.map((g, i) => (
             <span key={i} className={`sim-grade-chip${g === 10 ? ' grade-ten' : ''}`}>
@@ -72,7 +74,7 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
         </div>
       )}
 
-      {simAvg !== null && currentAverage !== null && (
+      {simulationMode && simAvg !== null && currentAverage !== null && (
         <p className="sim-result">
           Dacă ai lua {formatGrades(simGrades)}, media ar fi{' '}
           <strong>{simAvg}</strong>
@@ -90,7 +92,7 @@ export default function SmartHint({ grades, currentAverage, simGrades, onAddSimG
           <span>Dacă ai lua nota <strong>{upgradeGrade}</strong>, ți-ai crește media <span className="sim-hint-bulb">💡</span></span>
         </div>
       )}
-      {simGrades.length === 0 && (
+      {simulationMode && simGrades.length === 0 && (
         <p className="sim-hint-empty">Alege note simulate pentru această materie</p>
       )}
     </div>

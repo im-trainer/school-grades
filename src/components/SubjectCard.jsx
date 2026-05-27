@@ -156,15 +156,14 @@ export default function SubjectCard({ subject, average, collapsed, onToggleColla
             {gradeError && <span className="form-error">{gradeError}</span>}
           </form>
 
-          {simulationMode && (
-            <SmartHint
-              grades={subject.grades}
-              currentAverage={average}
-              simGrades={simGrades}
-              onAddSimGrade={grade => onAddSimGrade(subject.id, grade)}
-              onRemoveSimGrade={index => onRemoveSimGrade(subject.id, index)}
-            />
-          )}
+          <SmartHint
+            grades={subject.grades}
+            currentAverage={average}
+            simGrades={simGrades}
+            onAddSimGrade={grade => onAddSimGrade(subject.id, grade)}
+            onRemoveSimGrade={index => onRemoveSimGrade(subject.id, index)}
+            simulationMode={simulationMode}
+          />
 
           <div className="subject-card-footer">
             {confirmDelete ? (
