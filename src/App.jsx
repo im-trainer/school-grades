@@ -5,6 +5,7 @@ import AddSubjectForm from './components/AddSubjectForm'
 import SubjectList from './components/SubjectList'
 import ExportButton from './components/ExportButton'
 import ClassPickerModal from './components/ClassPickerModal'
+import GradeToast from './components/GradeToast'
 import { useGrades } from './hooks/useGrades'
 import { usePersistentState } from './hooks/usePersistentState'
 import { SUBJECTS_BY_CLASS } from './data/defaultSubjects'
@@ -41,6 +42,7 @@ export default function App() {
 
   const [showClassPicker, setShowClassPicker] = useState(false)
   const [toast, setToast] = useState(null)
+  const [gradeToast, setGradeToast] = useState(null)
   const [simulationMode, setSimulationMode] = usePersistentState('school-grades-ui-simulation', false)
   const [simGrades, setSimGrades]             = usePersistentState('school-grades-ui-sim-grades', {}, sanitiseSimGrades)
 
@@ -95,6 +97,26 @@ export default function App() {
     return parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2))
   }, [simulationMode, subjects, normalisedSimGrades, simulatedSubjectAverages, subjectAverages])
 
+  function handleAddGrade(subjectId, grade) {
+    const subject = subjects.find(s => s.id === subjectId)
+    if (!subject) { addGrade(subjectId, grade); return }
+
+    const newGrades = [...subject.grades, grade]
+    const newSubjectAvg = Math.round(newGrades.reduce((a, b) => a + b, 0) / newGrades.length)
+    const allAvgs = subjects
+      .map(s => s.id === subjectId ? newSubjectAvg : subjectAverages[s.id])
+      .filter(v => v !== null)
+    const newOverall = allAvgs.length > 0
+      ? parseFloat((allAvgs.reduce((a, b) => a + b, 0) / allAvgs.length).toFixed(2))
+      : null
+
+    addGrade(subjectId, grade)
+
+    if (overallAverage !== null && newOverall !== null && newOverall !== overallAverage) {
+      setGradeToast({ type: newOverall > overallAverage ? 'up' : 'down', id: Date.now() })
+    }
+  }
+
   function handleLoadDefaults(classNum) {
     const count = addSubjectsBatch(SUBJECTS_BY_CLASS[classNum])
     setStudentClass(classNum)
@@ -130,7 +152,7 @@ export default function App() {
           onDelete={deleteSubject}
           onRename={renameSubject}
           onUpdateTeacher={updateTeacher}
-          onAddGrade={addGrade}
+          onAddGrade={handleAddGrade}
           onDeleteGrade={deleteGrade}
         />
         <div className="bottom-bar">
@@ -144,6 +166,13 @@ export default function App() {
           />
         </div>
         {toast && <p className="toast">{toast}</p>}
+        {gradeToast && (
+          <GradeToast
+            type={gradeToast.type}
+            id={gradeToast.id}
+            onDismiss={() => setGradeToast(null)}
+          />
+        )}
       </main>
 
       {showClassPicker && (
